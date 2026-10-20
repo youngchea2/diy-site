@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!-- ============================================================
+  index.html : 메인(목록) 페이지
+  - 내용(프로젝트 목록)은 js/data.js 에서 자동으로 채워집니다.
+  - 이 파일은 거의 수정할 일이 없습니다.
+============================================================= -->
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI로 만드는 3D프린터 · 아두이노</title>
+  <meta name="description" content="AI와 함께 3D 프린터와 아두이노로 만드는 과정을 영상으로 보고, 도면을 받아가세요.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="home">
+  <!-- 상단 메뉴: app.js 가 채웁니다 -->
+  <header id="site-header"></header>
+
+  <main>
+    <!-- 소개 영역 -->
+    <section class="hero">
+      <h1 id="hero-title"></h1>
+      <p id="hero-desc"></p>
+    </section>
+
+    <!-- 프로젝트 목록 영역: app.js 가 카드를 만들어 넣습니다 -->
+    <section class="wrap">
+      <h2>제작 프로젝트</h2>
+      <div id="project-grid" class="grid"></div>
+    </section>
+  </main>
+
+  <!-- 하단 정보: app.js 가 채웁니다 -->
+  <footer id="site-footer"></footer>
+
+  <!-- 스크립트 순서 중요: 설정 → 데이터 → 동작 -->
+  <script src="js/config.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
