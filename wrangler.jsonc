@@ -1,0 +1,10 @@
+{
+  // wrangler.jsonc : Cloudflare 배포 설정 파일
+  // name   : Cloudflare 프로젝트 이름 (화면의 Project name 과 같아야 함)
+  // assets : 사이트 파일이 들어있는 폴더 (public 폴더 안의 파일이 공개됨)
+  "name": "diy-site",
+  "compatibility_date": "2025-09-09",
+  "assets": {
+    "directory": "./public"
+  }
+}
