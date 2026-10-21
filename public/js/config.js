@@ -8,5 +8,5 @@ const SITE = {
   heroDesc: "만드는 과정을 영상으로 보고, 직접 설계한 도면을 받아가세요.",
   contactEmail: "youngchea2@naver.com",              // ← 본인 이메일로 변경
   youtubeChannel: "",                          // 채널 주소 (없으면 비워두기)
-  year: new Date().getFullYear()               // 하단 저작권 연도(자동)
+  year: new Date().getFullYear()               // 하단 저작권 연도(자동)//
 };
