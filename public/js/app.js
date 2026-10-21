@@ -44,7 +44,8 @@ function renderLayout() {
 
   // 하단
   document.getElementById("site-footer").innerHTML =
-    `© ${SITE.year} ${esc(SITE.name)} · 문의 <a href="mailto:${esc(SITE.contactEmail)}">${esc(SITE.contactEmail)}</a>`;
+    `© ${SITE.year} ${esc(SITE.name)} · 문의 <a href="mailto:${esc(SITE.contactEmail)}">${esc(SITE.contactEmail)}</a>
+     · <a href="privacy.html">개인정보처리방침</a>`;
 }
 
 /* ---------- 3) 메인 페이지 ---------- */

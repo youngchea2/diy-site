@@ -74,3 +74,13 @@ h2 { font-size: 1.4rem; margin: 0 0 16px; }
 /* ---- 7. 키보드 포커스 표시 ---- */
 a:focus-visible, .btn:focus-visible { outline: 3px solid var(--accent);
                                      outline-offset: 2px; }
+
+/* ---- 8. 문서형 페이지 (개인정보처리방침 등) ---- */
+.doc h1 { font-size: 1.8rem; margin: 0 0 8px; }
+.doc h2 { font-size: 1.15rem; margin: 28px 0 8px; }
+.doc p, .doc li { max-width: 70ch; }
+.doc table { border-collapse: collapse; width: 100%; max-width: 70ch;
+             background: var(--surface); font-size: .92rem; }
+.doc th, .doc td { border: 1px solid var(--line); padding: 8px 10px;
+                   text-align: left; vertical-align: top; }
+.doc .note { color: var(--muted); font-size: .9rem; }
