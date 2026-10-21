@@ -40,7 +40,7 @@ function renderLayout() {
   const channel = SITE.youtubeChannel
     ? `<a href="${esc(SITE.youtubeChannel)}" target="_blank" rel="noopener">유튜브</a>` : "";
   document.getElementById("site-header").innerHTML =
-    `<nav class="nav"><a class="logo" href="index.html">${esc(SITE.name)}</a>${channel}</nav>`;
+    `<nav class="nav"><a class="logo" href="index.html">${esc(SITE.name)}</a><span>${channel}&nbsp;&nbsp;<a href="mypage.html">마이페이지</a></span></nav>`;
 
   // 하단
   document.getElementById("site-footer").innerHTML =

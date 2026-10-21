@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<!-- ============================================================
+  mypage.html : 마이페이지 (로그인 / 구매내역 / 표시 이름 수정 / 탈퇴)
+  서버(/api/me 등)와 통신해서 화면을 그립니다. 서버 코드: src/worker.js
+============================================================= -->
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>마이페이지</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .row { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+    input { font: inherit; padding: 10px; border: 1px solid var(--line); min-width: 220px; }
+    .kakao { background: #fee500; color: #191919; }          /* 카카오 로그인 버튼 색 */
+    .danger { background: #b3261e; }
+    #msg { color: var(--muted); min-height: 1.5em; }
+  </style>
+</head>
+<body data-page="mypage">
+  <header id="site-header"></header>
+  <main class="wrap">
+    <h1>마이페이지</h1>
+    <div id="box">불러오는 중…</div>
+  </main>
+  <footer id="site-footer"></footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    const box = document.getElementById("box");
+
+    // 요소를 간단히 만드는 도우미 (글자는 textContent 로 넣어서 안전하게 처리)
+    function el(tag, text, attrs = {}) {
+      const e = document.createElement(tag);
+      if (text) e.textContent = text;
+      Object.assign(e, attrs);
+      return e;
+    }
+
+    // 서버에 요청 (POST 는 JSON 으로)
+    async function api(path, body) {
+      const res = await fetch(path, body
+        ? { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) }
+        : {});
+      return { ok: res.ok, data: await res.json().catch(() => ({})) };
+    }
+
+    // 로그인 전 화면
+    function renderLoggedOut() {
+      box.replaceChildren();
+      if (new URLSearchParams(location.search).get("error"))
+        box.append(el("p", "로그인에 실패했습니다. 다시 시도해 주세요."));
+      box.append(el("p", "카카오 계정으로 간편하게 로그인할 수 있습니다."));
+      box.append(el("a", "카카오로 로그인", { className: "btn kakao", href: "/auth/kakao/login" }));
+    }
+
+    // 로그인 후 화면
+    function renderLoggedIn(me) {
+      box.replaceChildren();
+      box.append(el("h2", "내 정보"));
+
+      const input = el("input", "", { value: me.displayName, maxLength: 20 });
+      const msg = el("p", "", { id: "msg" });
+      const save = el("button", "저장", { className: "btn" });
+      save.onclick = async () => {
+        const r = await api("/api/me", { displayName: input.value });
+        msg.textContent = r.ok ? "저장했습니다." : (r.data.error || "저장에 실패했습니다.");
+      };
+      const row = el("div", "", { className: "row" });
+      row.append(input, save);
+      box.append(el("p", "표시 이름 (사이트에서 보이는 이름)"), row, msg);
+
+      box.append(el("h2", "구매 내역"));
+      if (me.purchases.length === 0) box.append(el("p", "아직 구매 내역이 없습니다."));
+      else {
+        const ul = el("ul");
+        me.purchases.forEach(p => ul.append(el("li", `${p.product} (${p.purchased_at})`)));
+        box.append(ul);
+      }
+
+      const out = el("a", "로그아웃", { className: "btn", href: "/auth/logout" });
+      const del = el("button", "회원 탈퇴", { className: "btn danger" });
+      del.onclick = async () => {
+        if (!confirm("탈퇴하면 회원 정보와 구매 내역이 삭제되며 되돌릴 수 없습니다. 계속할까요?")) return;
+        const r = await api("/api/withdraw", {});
+        if (r.ok) location.href = "/"; else msg.textContent = r.data.error || "탈퇴에 실패했습니다.";
+      };
+      const row2 = el("div", "", { className: "row" });
+      row2.append(out, del);
+      box.append(row2);
+    }
+
+    // 시작: 내 로그인 상태를 서버에 물어보고 알맞은 화면을 그림
+    api("/api/me").then(r => (r.data.loggedIn ? renderLoggedIn(r.data) : renderLoggedOut()))
+      .catch(() => { box.textContent = "정보를 불러오지 못했습니다."; });
+  </script>
+</body>
+</html>
